@@ -1,0 +1,34 @@
+# Binarios
+bin/
+main
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Entorno (Crítico)
+.env
+.env.local
+.env.*.local
+
+# Dependencias
+vendor/
+
+# Docker y Logs
+*.log
+docker-data/
+
+# Herramientas de desarrollo
+.air.toml
+tmp/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

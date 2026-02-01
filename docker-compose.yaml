@@ -1,10 +1,27 @@
-version: '3.8'
-
 services:
-  api:
-    build: .
-    ports:
-      - "8080:8080"
+  postgres:
+    image: postgres:15-alpine
     environment:
-      - PORT=8080
-    restart: unless-stopped
+      POSTGRES_USER: hector
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: iso_audit_db
+    ports:
+      - "5432:5432"
+
+  # MinIO simula el almacenamiento de fotos (S3) localmente
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password123
+    command: server /data --console-address ":9001"
+
+  # Mailpit atrapa los correos de prueba
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # Web UI
