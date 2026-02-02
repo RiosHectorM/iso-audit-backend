@@ -1,0 +1,10 @@
+version: "2"
+sql:
+  - schema: "internal/adapters/storage/postgres/sql/schema.sql"
+    queries: "internal/adapters/storage/postgres/sql/queries.sql"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "db"
+        out: "internal/adapters/storage/postgres/db"
+        emit_json_tags: true

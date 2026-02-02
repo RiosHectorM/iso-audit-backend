@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+
 	"github.com/RiosHectorM/iso-audit-backend/internal/core/domain"
 	"github.com/RiosHectorM/iso-audit-backend/internal/core/ports"
 )
@@ -33,4 +34,9 @@ func (s *AuditService) AssignStaff(adminID string, assignment domain.Assignment)
 	// 1. Validar que quien asigna sea ADMIN (Simulación, esto vendría del contexto/token)
 	// 2. Ejecutar la asignación
 	return s.repo.AssignUser(assignment)
+}
+
+// CreateAudit permite crear una nueva auditoría (para testear)
+func (s *AuditService) CreateAudit(audit *domain.Audit) error {
+	return s.repo.Create(audit)
 }
