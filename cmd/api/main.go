@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	api "github.com/RiosHectorM/iso-audit-backend/internal/adapters/http"
+	"github.com/RiosHectorM/iso-audit-backend/internal/adapters/http"
 	"github.com/RiosHectorM/iso-audit-backend/internal/adapters/storage/postgres"
 	"github.com/RiosHectorM/iso-audit-backend/internal/core/services"
 	"github.com/RiosHectorM/iso-audit-backend/internal/platform/config"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -28,9 +29,13 @@ func main() {
 	defer dbConn.Close()
 
 	// 4. Adapters & Services (Dependency Injection)
-	auditRepo := postgres.NewAuditRepository(dbConn)
-	auditService := services.NewAuditService(auditRepo)
-	auditHandler := api.NewAuditHandler(auditService)
+	userRepo := postgres.NewUserRepository(dbConn)
+	authSvc := services.NewAuthService(userRepo, os.Getenv("JWT_SECRET"))
+	authHandler := http.NewAuthHandler(authSvc)
+
+	r := gin.Default()
+	r.POST("/login", authHandler.Login)
+	r.Run(":" + cfg.Port)
 
 	// 5. Routes
 	mux := http.NewServeMux()

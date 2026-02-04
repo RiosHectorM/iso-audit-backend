@@ -5,6 +5,8 @@ import "github.com/RiosHectorM/iso-audit-backend/internal/core/domain"
 type UserRepository interface {
 	GetByID(id string) (*domain.User, error)
 	Save(user *domain.User) error
+	GetByEmail(email string) (*domain.User, error)
+	Create(user *domain.User) error
 }
 
 type AuditRepository interface {
